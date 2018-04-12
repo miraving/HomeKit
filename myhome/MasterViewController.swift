@@ -70,11 +70,13 @@ extension MasterViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "deviceId") as UITableViewCell?
-        let accessory = activeHome?.rooms[indexPath.section].accessories[indexPath.row] as! HMAccessory
-        cell?.textLabel?.text = accessory.name
-        
-        // ignore the information service
-        cell?.detailTextLabel?.text = "\(accessory.services.count - 1) service(s)"
+        if let accessory = activeHome?.rooms[indexPath.section].accessories[indexPath.row] {
+            cell?.textLabel?.text = accessory.name
+            // ignore the information service
+            cell?.detailTextLabel?.text = "\(accessory.services.count - 1) service(s)"
+        } else {
+            cell?.textLabel?.text = "Error getting accessory service data"
+        }
         
         return (cell != nil) ? cell! : UITableViewCell()
     }
